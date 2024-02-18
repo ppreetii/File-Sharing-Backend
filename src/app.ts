@@ -14,6 +14,16 @@ app.use(cors());
 app.use(`${API.BASE_URL}${API.USER}`, UserRoute);
 app.use(`${API.BASE_URL}${API.FILE}`, FileRoute);
 
+app.get('/', (req, res, next) => {
+    res.json({
+        message: "Welcome. Our APIs are live!"
+    })
+});
+
+app.all("*", () => {
+    throw new Error("Page Not Found");
+});
+
 app.use(errorHandler);
 
 export { app };
