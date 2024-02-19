@@ -14,7 +14,7 @@ interface file {
   sharedWith: string[];
 }
 
-const baseFilePath = config.nodeEnv === "production" ? CONSTANTS.PROD_FILE_BASEPATH : path.join(__dirname, CONSTANTS.LOCAL_FILE_BASEPATH)
+const baseFilePath = config.nodeEnv === "production" ? path.join(process.cwd(), CONSTANTS.FILE_BASEPATH) : path.join(__dirname, CONSTANTS.FILE_BASEPATH)
 
 const createEncryptFile = async (content: string, username: string) => {
   try {
