@@ -8,7 +8,7 @@ import { BadRequestError } from "../utils/errors/bad-request-error";
 import config from "../configs/config";
 import { CONSTANTS } from "../constants/constants";
 
-const baseFilePath = config.nodeEnv === "production" ? path.join(process.cwd(), CONSTANTS.FILE_BASEPATH) : path.join(__dirname, CONSTANTS.FILE_BASEPATH);
+const baseFilePath = config.nodeEnv === "production" ? path.join(process.cwd(), "/db") : path.join(__dirname, CONSTANTS.FILE_BASEPATH);
 
 const register = async (username: string) => {
   try {
