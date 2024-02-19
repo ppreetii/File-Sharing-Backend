@@ -1,11 +1,11 @@
-import fs from "node:fs";
 import path from "path";
 import crypto from "crypto";
-import util from "util";
 
-import { readFileAsync, readFileStream, writeFileAsync, writeFileStream } from "../utils/helpers/file";
+import { readFileAsync, readFileStream, writeFileAsync } from "../utils/helpers/file";
 import { NotFoundError } from "../utils/errors/not-found-error";
 import { ForbiddenError } from "../utils/errors/forbidden-error";
+import config from "../configs/config";
+import { CONSTANTS } from "../constants/constants";
 
 interface file {
   id: string;
@@ -13,6 +13,9 @@ interface file {
   createdBy: string;
   sharedWith: string[];
 }
+
+const baseFilePath = config.nodeEnv === "production" ? CONSTANTS.PROD_FILE_BASEPATH : path.join(__dirname, CONSTANTS.LOCAL_FILE_BASEPATH)
+
 const createEncryptFile = async (content: string, username: string) => {
   try {
     const encryptedData = await encryptContent(username, content);
@@ -33,8 +36,8 @@ const getFiles = async (username: string | undefined) => {
 
       if (file.createdBy === username || file.sharedWith.includes(username as string)) {
         const privateKeyPath = path.join(
-          __dirname,
-          `/../db/keys/${file.createdBy}_private_key.pem`
+          baseFilePath,
+          `/keys/${file.createdBy}_private_key.pem`
         );
         const privateKey = await readFileStream(privateKeyPath);
         message = (await decryptContent(privateKey, file.path)) as string;
@@ -76,7 +79,7 @@ const shareFile = async (
     }
 
     files[index].sharedWith.push(username);
-    const filePath = path.join(__dirname, `/../db/fileMap.json`);
+    const filePath = path.join(baseFilePath, `/fileMap.json`);
     
     await writeFileAsync(filePath, files);
   } catch (error) {
@@ -86,9 +89,11 @@ const shareFile = async (
 
 async function getAllFiles(){
   try {
-    const filePath = path.join(__dirname, `/../db/fileMap.json`);
+    const filePath = path.join(baseFilePath, `/fileMap.json`);
     const fileContent = await readFileStream(filePath);
     
+    if(!fileContent)return [];
+
     return JSON.parse(fileContent)
     
   } catch (error) {
@@ -98,7 +103,7 @@ async function getAllFiles(){
 
 async function checkUserExists(username:string){
   try {
-    const filePath = path.join(__dirname, `/../db/users.json`);
+    const filePath = path.join(baseFilePath, `/users.json`);
     const fileContent = await readFileStream(filePath);
     const users = JSON.parse(fileContent);
     return users[username];
@@ -128,8 +133,8 @@ async function decryptContent(privateKey: string, filePath: string) {
 async function encryptContent(username: string, content: string) {
   try {
     const publicKeyPath = path.join(
-      __dirname,
-      `/../db/keys/${username}_public_key.pem`
+      baseFilePath,
+      `/keys/${username}_public_key.pem`
     );
 
     const publicKey = await readFileAsync(publicKeyPath);
@@ -152,7 +157,7 @@ async function encryptContent(username: string, content: string) {
 async function saveEncryptedFile(encryptedData: string) {
   try {
     const fileId = crypto.randomBytes(32).toString("hex");
-    const filePath: string = path.join(__dirname, `/../db/files/${fileId}.txt`);
+    const filePath: string = path.join(baseFilePath, `/files/${fileId}.txt`);
 
     await writeFileAsync(filePath, encryptedData)
     return {
@@ -166,7 +171,7 @@ async function saveEncryptedFile(encryptedData: string) {
 
 async function saveFileMap(fileId: string, filePath: string, username: string) {
   try {
-    const fileMapPath: string = path.join(__dirname, `/../db/fileMap.json`);
+    const fileMapPath: string = path.join(baseFilePath, `/fileMap.json`);
     const fileContent = await readFileStream(fileMapPath);
     if (!fileContent) {
       await addFileMap(fileMapPath, {

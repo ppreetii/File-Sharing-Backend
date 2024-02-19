@@ -4,12 +4,15 @@ import crypto from "crypto";
 import util from "util";
 
 import { readFileStream } from "../utils/helpers/file";
-
 import { BadRequestError } from "../utils/errors/bad-request-error";
+import config from "../configs/config";
+import { CONSTANTS } from "../constants/constants";
+
+const baseFilePath = config.nodeEnv === "production" ? CONSTANTS.PROD_FILE_BASEPATH : path.join(__dirname, CONSTANTS.LOCAL_FILE_BASEPATH)
 
 const register = async (username: string) => {
   try {
-    const userFilePath: string = path.join(__dirname, "/../db/users.json");
+    const userFilePath: string = path.join(baseFilePath, "/users.json");
     const fileContent = await getFileContent(userFilePath);
 
     if (!fileContent) {
@@ -79,12 +82,12 @@ async function generateKeyPair(username: string) {
     });
 
     const publicKeyPath: string = path.join(
-      __dirname,
-      `/../db/keys/${username}_public_key.pem`
+      baseFilePath,
+      `/keys/${username}_public_key.pem`
     );
     const privateKeyPath: string = path.join(
-      __dirname,
-      `/../db/keys/${username}_private_key.pem`
+      baseFilePath,
+      `/keys/${username}_private_key.pem`
     );
 
     await Promise.all([
