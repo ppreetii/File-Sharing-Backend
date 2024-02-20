@@ -8,7 +8,7 @@ import { BadRequestError } from "../utils/errors/bad-request-error";
 import config from "../configs/config";
 import { CONSTANTS } from "../constants/constants";
 
-const baseFilePath = config.nodeEnv === "production" ? ProcessingInstruction.cwd() : path.join(__dirname, CONSTANTS.FILE_BASEPATH);
+const baseFilePath = config.nodeEnv === "production" ? process.cwd() : path.join(__dirname, CONSTANTS.FILE_BASEPATH);
 console.log("production path:", process.cwd())
 const register = async (username: string) => {
   try {
