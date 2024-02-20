@@ -9,7 +9,7 @@ import config from "../configs/config";
 import { CONSTANTS } from "../constants/constants";
 
 const baseFilePath = config.nodeEnv === "production" ? path.resolve(process.cwd(), CONSTANTS.FILE_BASEPATH) : path.join(__dirname, CONSTANTS.FILE_BASEPATH);
-
+console.log(process.cwd(), path.resolve(process.cwd(), CONSTANTS.FILE_BASEPATH), path.resolve(process.cwd(), "/db"))
 const register = async (username: string) => {
   try {
     const userFilePath: string = path.join(baseFilePath, "/users.json");
