@@ -16,7 +16,7 @@ app.use(`${API.BASE_URL}${API.FILE}`, FileRoute);
 
 app.get('/', (req, res, next) => {
     res.json({
-        message: "Welcome. Our APIs are live!"
+        message: "Welcome. Secure File Sharing Backend APIs are live!"
     })
 });
 

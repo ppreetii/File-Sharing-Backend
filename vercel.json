@@ -3,14 +3,15 @@
     "devCommand": "npm run start",
     "builds": [
       {
-        "src": "src/index.ts",
-        "use": "@vercel/node"
+        "src": "build/index.ts",
+        "use": "@vercel/node",
+        "config": { "includeFiles": ["build/**"] }
       }
     ],
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "src/index.ts"
+        "dest": "build/index.ts"
       }
     ]
 }
