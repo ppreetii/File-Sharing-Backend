@@ -18,10 +18,8 @@ const crypto_1 = __importDefault(require("crypto"));
 const util_1 = __importDefault(require("util"));
 const file_1 = require("../utils/helpers/file");
 const bad_request_error_1 = require("../utils/errors/bad-request-error");
-const config_1 = __importDefault(require("../configs/config"));
 const constants_1 = require("../constants/constants");
-const baseFilePath = config_1.default.nodeEnv === "production" ? process.cwd() : path_1.default.join(__dirname, constants_1.CONSTANTS.FILE_BASEPATH);
-console.log("production path:", process.cwd());
+const baseFilePath = path_1.default.join(__dirname, constants_1.CONSTANTS.FILE_BASEPATH);
 const register = (username) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userFilePath = path_1.default.join(baseFilePath, "/users.json");

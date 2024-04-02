@@ -17,9 +17,9 @@ const crypto_1 = __importDefault(require("crypto"));
 const file_1 = require("../utils/helpers/file");
 const not_found_error_1 = require("../utils/errors/not-found-error");
 const forbidden_error_1 = require("../utils/errors/forbidden-error");
-const config_1 = __importDefault(require("../configs/config"));
 const constants_1 = require("../constants/constants");
-const baseFilePath = config_1.default.nodeEnv === "production" ? path_1.default.join(process.cwd(), constants_1.CONSTANTS.FILE_BASEPATH) : path_1.default.join(__dirname, constants_1.CONSTANTS.FILE_BASEPATH);
+const baseFilePath = path_1.default.join(__dirname, constants_1.CONSTANTS.FILE_BASEPATH);
+console.log(path_1.default.join(process.cwd(), __dirname), __dirname, baseFilePath);
 const createEncryptFile = (content, username) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const encryptedData = yield encryptContent(username, content);

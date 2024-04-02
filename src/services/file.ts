@@ -4,7 +4,7 @@ import crypto from "crypto";
 import { readFileAsync, readFileStream, writeFileAsync } from "../utils/helpers/file";
 import { NotFoundError } from "../utils/errors/not-found-error";
 import { ForbiddenError } from "../utils/errors/forbidden-error";
-import config from "../configs/config";
+
 import { CONSTANTS } from "../constants/constants";
 
 interface file {
@@ -14,7 +14,9 @@ interface file {
   sharedWith: string[];
 }
 
-const baseFilePath = config.nodeEnv === "production" ? path.join(process.cwd(), CONSTANTS.FILE_BASEPATH) : path.join(__dirname, CONSTANTS.FILE_BASEPATH)
+const baseFilePath =  path.join(__dirname, CONSTANTS.FILE_BASEPATH);
+
+console.log(path.join(process.cwd(), __dirname), __dirname, baseFilePath);
 
 const createEncryptFile = async (content: string, username: string) => {
   try {

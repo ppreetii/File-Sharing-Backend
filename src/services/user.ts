@@ -5,11 +5,11 @@ import util from "util";
 
 import { readFileStream } from "../utils/helpers/file";
 import { BadRequestError } from "../utils/errors/bad-request-error";
-import config from "../configs/config";
+
 import { CONSTANTS } from "../constants/constants";
 
-const baseFilePath = config.nodeEnv === "production" ? process.cwd() : path.join(__dirname, CONSTANTS.FILE_BASEPATH);
-console.log("production path:", process.cwd())
+const baseFilePath = path.join(__dirname, CONSTANTS.FILE_BASEPATH);
+
 const register = async (username: string) => {
   try {
     const userFilePath: string = path.join(baseFilePath, "/users.json");
