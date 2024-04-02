@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import helmet from "helmet";
 
 import { UserRoute } from "./routes/user";
 import { FileRoute } from "./routes/file";
@@ -10,6 +11,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+app.use(helmet());
 
 app.use(`${API.BASE_URL}${API.USER}`, UserRoute);
 app.use(`${API.BASE_URL}${API.FILE}`, FileRoute);
