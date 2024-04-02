@@ -1,0 +1,1 @@
+A file must be present, otherwise github doesn't add the folder

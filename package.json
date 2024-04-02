@@ -8,9 +8,10 @@
     "build-dev": "npm run clean && tsc",
     "start": "node src/index.ts",
     "dev": "ts-node-dev src/index.ts",
-    "build": "rimraf build && tsc",
+    "build": "rimraf build && tsc && npm run copy-files",
     "ts.check": "tsc --project tsconfig.json",
-    "add-build": "git add build"
+    "add-build": "git add build",
+    "copy-files": "cp -r ./src/db/ ./build/"
   },
   "keywords": [],
   "author": "",
